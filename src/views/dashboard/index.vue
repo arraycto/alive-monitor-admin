@@ -27,7 +27,7 @@
               </el-col>
             </el-row>
             <br>
-            <div>
+            <div class="des">
               负评数
               {{ numberWarp(quickLook.bad_comment.today_bad_all) }} |
               总评数
@@ -58,7 +58,7 @@
               </el-col>
             </el-row>
             <br>
-            <div>
+            <div class="des">
               卡顿数 {{ numberWarp(quickLook.ka.today_ka_all )|| 0 }} | 总人数
               {{ numberWarp(quickLook.ka.today_all) || 0 }}
             </div>
@@ -87,7 +87,7 @@
               </el-col>
             </el-row>
             <br>
-            <div>
+            <div class="des">
               异常数 {{ numberWarp(quickLook.page.today_page_all) }} | 访问数
               {{ numberWarp(quickLook.page.today_all) }}
             </div>
@@ -116,7 +116,7 @@
               </el-col>
             </el-row>
             <br>
-            <div>/</div>
+            <div style="visibility:hidden">/</div>
           </div>
         </el-col>
       </el-row>
@@ -149,12 +149,14 @@
 import Charts from '../../components/Charts'
 import { getRealTimeData, getTrendData } from '@/api/query'
 
+const now = new Date()
+
 export default {
   name: 'Dashboard',
   components: { Charts },
   data() {
     return {
-      timeLimit: [new Date().getTime() - 3600 * 1000, new Date()],
+      timeLimit: [new Date(now.getFullYear(), now.getMonth(), now.getDate()), new Date()],
       pickerOptions: {
         shortcuts: [
           {
@@ -221,8 +223,16 @@ export default {
       this.quickLook = data
     })
     this.loading = true
+    const start = this.timeLimit[0]
+    const end = this.timeLimit[1]
     getTrendData({
-      type: 1
+      type: 2,
+      start_time: `${start.getFullYear()}-${
+        start.getMonth() + 1
+      }-${start.getDate()} ${start.getHours()}:${start.getMinutes()}`,
+      end_time: `${end.getFullYear()}-${
+        end.getMonth() + 1
+      }-${end.getDate()} ${end.getHours()}:${end.getMinutes()}`
     }).then((res) => {
       this.loading = false
       const { data } = res
@@ -312,6 +322,7 @@ export default {
     // padding-bottom: 20px;
   }
   .number {
+    color:#000;
     padding: 16px 0 10px;
     font-size: 26px;
     font-weight: bold;

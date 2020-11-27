@@ -34,6 +34,9 @@
 <script>
 import Charts from '@/components/Charts/index'
 import { getTrendData } from '@/api/query'
+
+const now = new Date()
+
 export default {
   components: { Charts },
   data() {
@@ -41,7 +44,7 @@ export default {
       aliveId: '',
       appId: '',
       chartData: {},
-      timeLimit: [new Date(new Date().getTime() - 3600 * 1000), new Date()],
+      timeLimit: [new Date(now.getFullYear(), now.getMonth(), now.getDate()), new Date()],
       loading: false,
       pickerOptions: {
         shortcuts: [
