@@ -24,7 +24,7 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: '/',
+  publicPath: process.env.NODE_ENV === 'development' ? '/' : './',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
@@ -39,7 +39,7 @@ module.exports = {
     before: require('./mock/mock-server.js'),
     proxy: {
       '/api': {
-        target: 'http://47.106.160.246:8090',
+        target: 'http://42.192.148.175:10444',
         changeOrigin: true,
         secure: false, // 是否验证SSL
         // ws: true, // 是否代理websockets

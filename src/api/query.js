@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 获取趋势数据
 export function getTrendData(params) {
   return request({
-    url: 'http://alivereport.xiaoeknow.com/_panel/get_trend_data',
+    url: '/_panel/get_trend_data',
     method: 'get',
     params
   })
@@ -12,7 +12,7 @@ export function getTrendData(params) {
 // 获取实时面板数据
 export function getRealTimeData(params) {
   return request({
-    url: 'http://alivereport.xiaoeknow.com/_panel/get_real_time_data',
+    url: '/_panel/get_real_time_data',
     method: 'get',
     params
   })
