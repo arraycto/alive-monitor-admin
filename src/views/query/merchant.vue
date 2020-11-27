@@ -103,7 +103,10 @@ export default {
       const appId = this.url.match(/app[a-z0-9]{12}/)
       const aliveId = this.url.match(/l_[a-z0-9]{24}/)
       console.log(appId, aliveId)
-      if (!appId && !aliveId) this.$message.warning('请输入正确的URL地址')
+      if (!appId && !aliveId) {
+        this.$message.warning('请输入正确的URL地址')
+        return
+      }
       let option = {}
       if (aliveId && appId) {
         option['app_id'] = appId[0]
