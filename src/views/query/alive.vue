@@ -2,8 +2,7 @@
   <div class="dashboard-container">
     <el-card>
       <el-row :gutter="20">
-        <el-col :span="6">  <el-input v-model="appId" placeholder="appId" /></el-col>
-        <el-col :span="6">  <el-input v-model="aliveId" placeholder="aliveId" /></el-col>
+        <el-col :span="12">  <el-input v-model="url" placeholder="请输入直播地址" /></el-col>
         <el-col :span="4">   <el-button type="primary" @click="search">搜索</el-button></el-col>
         <el-col :span="8" />
       </el-row>
@@ -41,8 +40,7 @@ export default {
   components: { Charts },
   data() {
     return {
-      aliveId: '',
-      appId: '',
+      url: '',
       chartData: {},
       timeLimit: [new Date(now.getFullYear(), now.getMonth(), now.getDate()), new Date()],
       loading: false,
@@ -102,10 +100,18 @@ export default {
       this.loading = true
       //                      apppchqltpt3482
       // 处理一下链接   https://appaklwlitn7978.h5.xiaoeknow.com/ https://appaklwlitn7978.h5.xiaoeknow.com/v1/course/alive/l_5fbdc184e4b04db7c090c2d8?type=2&pro_id=p_5fbdc175e4b04db7c090c2d0
+      const appId = this.url.match(/app[a-z0-9]{12}/)
+      const aliveId = this.url.match(/l_[a-z0-9]{24}/)
+      console.log(appId, aliveId)
+      if (!appId && !aliveId) this.$message.warning('请输入正确的URL地址')
       let option = {}
+      if (aliveId && appId) {
+        option['app_id'] = appId[0]
+        option['alive_id'] = aliveId[0]
+      } else {
+        option['app_id'] = appId[0]
+      }
       // live优先级大于merchant
-      option['app_id'] = this.appId
-      option['alive_id'] = this.aliveId
       option = {
         ...option,
         ...this.getTimeWrap()
