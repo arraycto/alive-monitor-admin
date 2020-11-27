@@ -102,7 +102,9 @@ export default {
       // 处理一下链接   https://appaklwlitn7978.h5.xiaoeknow.com/ https://appaklwlitn7978.h5.xiaoeknow.com/v1/course/alive/l_5fbdc184e4b04db7c090c2d8?type=2&pro_id=p_5fbdc175e4b04db7c090c2d0
       const appId = this.url.match(/app[a-z0-9]{12}/)
       const aliveId = this.url.match(/l_[a-z0-9]{24}/)
-      console.log(appId, aliveId)
+      const base64 = this.url.match(/content_page\/(\w+)/)
+      console.log(appId, aliveId, base64)
+
       if (!appId && !aliveId) {
         this.$message.warning('请输入正确的URL地址')
         return
@@ -115,6 +117,16 @@ export default {
         option['app_id'] = appId[0]
       }
       // live优先级大于merchant
+      if (base64) {
+        try {
+          const res = JSON.parse(atob(base64[1]))
+          option['app_id'] = res.app_id
+          option['alive_id'] = res.resource_id
+        } catch (error) {
+          this.$message.warning('base64 解析失败')
+          return
+        }
+      }
       option = {
         ...option,
         ...this.getTimeWrap()
